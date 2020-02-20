@@ -19,100 +19,53 @@ def read_data():
  return pd.read_csv('https://raw.githubusercontent.com/ipushin/Spam-Detector/master/spam_or_not_spam.csv')
 df = read_data()
 
-class SpamClassifier():
-    def __init__(self):
-        pass
+prior_spam, prior_ham, spam_dict, ham_dict, unique_words = classifier_data[0], classifier_data[1], classifier_data[2], \
+                                                           classifier_data[3], classifier_data[4]
 
-    def fit(self, train):
-
-        # words_frequency
-        self.spam_dict = {}
-        self.ham_dict = {}
-
-        train['email'] = train['email'].astype('str')
-        for i in range(0, train.shape[0]):
-            if train['label'][i] == 1:
-                for j in train['email'][i].split(' '):
-                    j = re.sub(r'[^\w\s]|_', '', j)
-                    if len(j) > 2 and len(re.findall(r'\d+', j)) == 0:
-                        self.spam_dict[j.lower()] = self.spam_dict.setdefault(j.lower(), 0) + 1
-
-            else:
-                for j in train['email'][i].split(' '):
-                    j = re.sub(r'[^\w\s]|_', '', j)
-                    if len(j) > 2 and len(re.findall(r'\d+', j)) == 0:
-                        self.ham_dict[j.lower()] = self.ham_dict.setdefault(j.lower(), 0) + 1
-
-        # prior probabilities
-        ham_count = train[train['label'] == 0].shape[0]
-        spam_count = train[train['label'] == 1].shape[0]
-        self.prior_spam = spam_count/train.shape[0]
-        self.prior_ham = ham_count/train.shape[0]
-
-        # unique_words
-        self.unique_words = {}
-        for i in range(0, train.shape[0]):
-            for j in train['email'][i].split(' '):
-                j = re.sub(r'[^\w\s]|_', '', j)
-                if len(j) > 2 and len(re.findall(r'\d+', j)) == 0:
-                    self.unique_words[j.lower()] = self.unique_words.setdefault(j.lower(), 0) + 1
-
-    def conditional_word(self, word, label, k=1):
-        if label == 'SPAM':
-            if word.lower() in self.spam_dict:
-                cond_word_spam = np.log(
-                    (k + self.spam_dict[word.lower()]) / (len(self.unique_words) + sum(self.spam_dict.values())))
-            else:
-                cond_word_spam = np.log((k) / (len(self.unique_words) + sum(self.spam_dict.values())))
-
-            self.cond_word_spam = cond_word_spam
-            return self.cond_word_spam
-
+def conditional_word(word, label, k=1):
+    if label == 'spam':
+        if word.lower() in spam_dict:
+            cond_word_spam = np.log(
+                (k + spam_dict[word.lower()]) / (len(unique_words) + sum(spam_dict.values())))
         else:
-            if word.lower() in self.ham_dict:
-                cond_word_ham = np.log((k + self.ham_dict[word.lower()]) / (
-                            len(self.unique_words) + sum(self.ham_dict.values())))
-            else:
-                cond_word_ham = np.log((k) / (len(self.unique_words) + sum(self.ham_dict.values())))
-            self.cond_word_ham = cond_word_ham
-            return self.cond_word_ham
+            cond_word_spam = np.log((k) / (len(unique_words) + sum(spam_dict.values())))
 
-    def conditional(self, text, label):
-        if label == 'SPAM':
-            self.cond_spam = 0
-            for word in text.split(' '):
-                word = re.sub(r'[^\w\s]', '', word)
-                if len(word) > 2 and len(re.findall(r'\d+', word)) == 0:
-                    self.cond_spam += SpamClassifier.conditional_word(word.lower(), label)
-            return self.cond_spam
+        cond_word_spam = cond_word_spam
+        return cond_word_spam
+    else:
+        if word.lower() in ham_dict:
+            cond_word_ham = np.log((k + ham_dict[word.lower()]) / (
+                    len(unique_words) + sum(ham_dict.values())))
         else:
-            self.cond_ham = 0
-            for word in text.split(' '):
-                word = re.sub(r'[^\w\s]', '', word)
-                if len(word) > 2 and len(re.findall(r'\d+', word)) == 0:
-                    self.cond_ham += SpamClassifier.conditional_word(word.lower(), label)
-            return self.cond_ham
+            cond_word_ham = np.log((k) / (len(unique_words) + sum(ham_dict.values())))
+        cond_word_ham = cond_word_ham
+        return cond_word_ham
 
-    def classify(self, text, prob=False):
-            ham = np.log(self.prior_ham) + SpamClassifier.conditional(text, 'NOT_SPAM')
-            spam = np.log(self.prior_spam) + SpamClassifier.conditional(text, 'SPAM')
+def conditional(text, label):
+    if label == 'spam':
+        cond_spam = 0
+        for word in text.split(' '):
+            word = re.sub(r'[^\w\s]', '', word)
+            if len(word) > 2 and len(re.findall(r'\d+', word)) == 0:
+                cond_spam += conditional_word(word.lower(), label)
+        return cond_spam
+    else:
+        cond_ham = 0
+        for word in text.split(' '):
+            word = re.sub(r'[^\w\s]', '', word)
+            if len(word) > 2 and len(re.findall(r'\d+', word)) == 0:
+                cond_ham += conditional_word(word.lower(), label)
+        return cond_ham
 
-            while prob == True:
-                prob_ham = 1 / (1 + np.exp(spam - ham))
-                prob_spam = 1 / (1 + np.exp(ham - spam))
-                return prob_spam
-                break
-            if spam > ham:
-                return 1
-            else:
-                return 0
+def classify(text):
+        ham = np.log(prior_ham) + conditional(text, 'ham')
+        spam = np.log(prior_spam) + conditional(text, 'spam')
+        prob_spam = 1 / (1 + np.exp(ham - spam))
+        return prob_spam
 
-
-text_input = st.text_area("Enter your text here")
+text_input = st.text_area("Place the text here to see if it is spam")
 if text_input:
-    SpamClassifier = SpamClassifier()
-    SpamClassifier.fit(df)
-    probability = SpamClassifier.classify(text_input, prob=True)
+    probability = classify(text_input)
     st.subheader('The probability this message is spam is {:.2f}%'.format(probability*100))
     st.write('Although we never know the probability of the email being spam and usually '
              'see it either in the inbox or junkbox, some algorithms detect spam based on the probability. '
