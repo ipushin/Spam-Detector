@@ -13,11 +13,11 @@ st.write("This web app is aimed to detect spam and explore how it's been detecte
 
 @st.cache(allow_output_mutation=True, show_spinner=False)
 def read_data():
- return pd.read_csv('/Users/macbook/Downloads/spam_or_not_spam.csv')
+ return pd.read_csv('https://raw.githubusercontent.com/ipushin/Spam-Detector/master/spam_or_not_spam.csv')
 df = read_data()
 
 #return prior_spam, prior_ham, spam_dict, ham_dict, unique_words
-with open('/Users/macbook/Downloads/trained_classifier.pkl', 'rb') as f:
+with open('trained_classifier.pkl', 'rb') as f:
     classifier_data = pickle.load(f)
 
 prior_spam, prior_ham, spam_dict, ham_dict, unique_words = classifier_data[0], classifier_data[1], classifier_data[2], \
@@ -74,7 +74,7 @@ if text_input:
 
 @st.cache(allow_output_mutation=True, show_spinner=False)
 def processed_data():
-    processed_data = pd.read_csv('/Users/macbook/Downloads/hub/test_spam.csv')
+    processed_data = pd.read_csv('https://raw.githubusercontent.com/ipushin/Spam-Detector/master/test_spam.csv')
     return processed_data
 
 @st.cache(allow_output_mutation=True, show_spinner=False)
