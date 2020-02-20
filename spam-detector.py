@@ -109,7 +109,7 @@ text_input = st.text_area("Enter your text here")
 if text_input:
     SpamClassifier = SpamClassifier()
     SpamClassifier.fit(df)
-    prob = SpamClassifier.classify(text_input, prob=True)
+    probability = SpamClassifier.classify(text_input, prob=True)
     st.subheader('The probability this message is spam is {:.2f}%'.format(probability*100))
     st.write('Although we never know the probability of the email being spam and usually '
              'see it either in the inbox or junkbox, some algorithms detect spam based on the probability. '
