@@ -11,6 +11,9 @@ import pickle
 st.title("Spam or not spam?")
 st.write("This web app is aimed to detect spam and explore how it's been detected")
 
+with open('trained_classifier.pkl', 'rb') as f: #
+    classifier_data = pickle.load(f)
+  
 @st.cache(allow_output_mutation=True, show_spinner=False)
 def read_data():
  return pd.read_csv('https://raw.githubusercontent.com/ipushin/Spam-Detector/master/spam_or_not_spam.csv')
