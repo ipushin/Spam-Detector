@@ -1,6 +1,6 @@
 # Bayesian spam classifier
 Simple algorithm based on the Bayes' theorem to classify text as spam.
-+ Probability of a text being spam
++ Probability of an email text being spam
 + Different thresholds
 + Performance metrics
 + Theoretical section
@@ -8,3 +8,5 @@ Simple algorithm based on the Bayes' theorem to classify text as spam.
 ```
 install streamlit
 ```
+## Built With
+* [Streamlit](https://www.streamlit.io)
