@@ -16,4 +16,4 @@ Dataset from [here](https://www.kaggle.com/ozlerhakan/spam-or-not-spam-dataset).
 ```
 install streamlit
 ```
-+ store .py file and pretraited classifier and run `streamlit run .py` change whatever you want and see changes immediately
+Store .py file and pretraited classifier go to the directory in the terminal session and run `streamlit run .py` change whatever you want and see changes immediately
