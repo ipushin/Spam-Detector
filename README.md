@@ -4,9 +4,11 @@ Classifying algorithm based on the Bayes' theorem built with [Streamlit](https:/
 [Try it here](http://detectingspam.herokuapp.com) and 
 
 + Check the probability of an email being spam
-+ Set up different thresholds to see how algorithm's metrics are changing
-+ See the visualisation of the performance metrics
++ Set up different thresholds to see how the algorithm's metrics are changing
++ See the visualization of the performance metrics
 + Explore the theoretical section to see what is under the hood of the classifier
+
+Dataset from [here](https://www.kaggle.com/ozlerhakan/spam-or-not-spam-dataset). Pretrained model. See file to check how the model was trained.
 
 ## To install and use locally
 ```
