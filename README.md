@@ -8,7 +8,7 @@ Classifying algorithm based on the Bayes' theorem built with [Streamlit](https:/
 + See the visualization of the performance metrics
 + Explore the theoretical section to see what is under the hood of the classifier
 
-![Alt Text](https://gph.is/g/EGgxmr3)
+![Alt Text](https://media.giphy.com/media/lnnEFOEqPeoPtG3FNN/giphy.gif)
 
 Dataset from [here](https://www.kaggle.com/ozlerhakan/spam-or-not-spam-dataset). Pretrained model. See file to check how the model was trained.
 
