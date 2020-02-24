@@ -4,9 +4,9 @@ Classifying algorithm based on the Bayes' theorem built with [Streamlit](https:/
 [Try it here](http://detectingspam.herokuapp.com) and 
 
 + Check the probability of an email being spam
-+ Set up different thresholds to see how metrics changing
++ Set up different thresholds to see how algorithm's metrics are changing
 + See the visualisation of the performance metrics
-+ Exlore the theoretical section to see what is under the hood
++ Explore the theoretical section to see what is under the hood of the classifier
 
 ## To install and use locally
 ```
