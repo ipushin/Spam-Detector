@@ -1,13 +1,14 @@
 # Bayesian spam classifier
-Classifying algorithm based on the Bayes' theorem built on [Streamlit](https://www.streamlit.io) and deployed on Heroku
+Classifying algorithm based on the Bayes' theorem built with [Streamlit](https://www.streamlit.io) and deployed on Heroku
 
-[Try it here](http://detectingspam.herokuapp.com)
-+ Probability of an email text being spam
-+ Different thresholds
-+ Performance metrics
-+ Theoretical section
+[Try it here](http://detectingspam.herokuapp.com) and 
 
-## Install and use locally
++ Check the probability of an email being spam
++ Set up different thresholds to see how metrics changing
++ See the visualisation of the performance metrics
++ Exlore the theoretical section to see what is under the hood
+
+## To install and use locally
 ```
 install streamlit
 ```
