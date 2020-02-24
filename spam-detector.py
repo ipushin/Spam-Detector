@@ -13,7 +13,7 @@ st.write("This web app is aimed to detect spam and explore how it's been detecte
 # getting dictionaries and prior probabilities from pretrained classifier
 @st.cache(show_spinner=False)
 def read_clf():
-    with open('trained_classifier.pkl', 'rb') as f: # /Users/macbook/Downloads/
+    with open('trained_classifier.pkl', 'rb') as f: 
         pretrained_clf = pickle.load(f)
     return pretrained_clf
 
@@ -79,7 +79,7 @@ if text_input:
 # getting classified data
 @st.cache(allow_output_mutation=True, show_spinner=False)
 def get_data():
-    processed_data = pd.read_csv('https://raw.githubusercontent.com/ipushin/Spam-Detector/master/test_spam.csv')
+    processed_data = pd.read_csv('https://raw.githubusercontent.com/ipushin/Spam-Detector/master/processed_data.csv')
     return processed_data
 
 # assigning classes on the basis of the probability
